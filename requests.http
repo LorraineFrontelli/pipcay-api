@@ -1,0 +1,82 @@
+### Esse arquivo funciona no plugin "REST Client" do VS Code ou no cliente HTTP
+### embutido do IntelliJ/IDEA. Também dá pra copiar os JSONs pro Postman/Insomnia.
+### Rode a aplicação (mvnw spring-boot:run) antes de disparar as requisições.
+
+@baseUrl = http://localhost:8080
+
+### 1) Cadastrar conta 1 (POST) -> espera 201
+POST {{baseUrl}}/contas
+Content-Type: application/json
+
+{
+  "nomeTitular": "Maria Souza",
+  "cpf": "12345678900",
+  "numeroConta": "1001",
+  "saldo": 2500.00,
+  "tipoConta": "CORRENTE"
+}
+
+### 2) Cadastrar conta 2 (POST) -> espera 201
+POST {{baseUrl}}/contas
+Content-Type: application/json
+
+{
+  "nomeTitular": "João Pereira",
+  "cpf": "98765432100",
+  "numeroConta": "1002",
+  "saldo": 1000.00,
+  "tipoConta": "POUPANCA"
+}
+
+### 3) Cadastrar conta 3 (POST) -> espera 201
+POST {{baseUrl}}/contas
+Content-Type: application/json
+
+{
+  "nomeTitular": "Ana Lima",
+  "cpf": "11122233344",
+  "numeroConta": "1003",
+  "saldo": 500.00,
+  "tipoConta": "CORRENTE"
+}
+
+### 4) Tentar cadastrar CPF duplicado -> espera 409 (regra de negócio)
+POST {{baseUrl}}/contas
+Content-Type: application/json
+
+{
+  "nomeTitular": "Outra Pessoa",
+  "cpf": "12345678900",
+  "numeroConta": "1004",
+  "saldo": 100.00,
+  "tipoConta": "CORRENTE"
+}
+
+### 5) Listar todas as contas (GET) -> espera 200
+GET {{baseUrl}}/contas
+
+### 6) Buscar conta pelo ID (GET) -> espera 200 (ajuste o id conforme o retorno do cadastro)
+GET {{baseUrl}}/contas/1
+
+### 7) Buscar conta com ID inexistente (GET) -> espera 404
+GET {{baseUrl}}/contas/9999
+
+### 8) Atualizar dados da conta (PUT) -> espera 200
+PUT {{baseUrl}}/contas/1
+Content-Type: application/json
+
+{
+  "nomeTitular": "Maria Souza Andrade",
+  "saldo": 3200.50,
+  "tipoConta": "CORRENTE"
+}
+
+### 9) Atualizar conta inexistente (PUT) -> espera 404
+PUT {{baseUrl}}/contas/9999
+Content-Type: application/json
+
+{
+  "nomeTitular": "Fulano",
+  "saldo": 100.00,
+  "tipoConta": "CORRENTE"
+}
